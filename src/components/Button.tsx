@@ -1,9 +1,10 @@
-import '../css/Button.css';
+import '../css/Button.scss';
 
 export interface IButtonProps {
-  gitHubIntegrated: boolean;
-  LinkedinIntegrated: boolean;
+  gitHubIntegrated?: boolean;
+  LinkedinIntegrated?: boolean;
   Heading?: string;
+  selected?: boolean;
 }
 
 const Button = (props: IButtonProps) => {
@@ -24,7 +25,11 @@ const Button = (props: IButtonProps) => {
   } else if (props.Heading != null) {
     return (
       <div className='wrap'>
-        <button className='button'>{props.Heading}</button>
+        <button
+          className={props.selected ? 'button button-selected' : 'button'}
+        >
+          {props.Heading}
+        </button>
       </div>
     );
   } else {
