@@ -5,10 +5,18 @@ import { useEffect, useState } from 'react';
 import Button from './components/Button';
 import { MyCheckbox } from './components/Checkbox';
 import './css/Home.css';
+import './css/Card.css';
 import bloggerLogo from './media/blogger.jpg';
 import developerLogo from './media/developer.png';
 import logo from './media/IntegrationIcon1.png';
 import orgLogo from './media/Organisation.jpg';
+import DeveloperFeatures from './Features';
+import Personas from './Personas';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 const axios = require('axios');
 
 export interface IHome {
@@ -34,7 +42,13 @@ const stackTokens = { childrenGap: 20 };
 
 const clientID = '4390b5874ad74b454dc0';
 const clientSecret = 'e241aa404bcec128197cb9cecf0e13c395535ed0';
-
+const styles = {
+  card: {
+    minWidth: 275,
+    float: "left",
+    marginRight: 10 // or sth.
+  }
+};
 const Home: React.FunctionComponent = () => {
   const [userData, setUserData] = useState<IHome>({
     avatar: null,
@@ -148,7 +162,7 @@ const Home: React.FunctionComponent = () => {
         </div>
         <h1>
           GitLinked
-          <span>Integrate your GitHub with Linkedin .</span>
+          <span>Bring GitHub and Linkedin closer.</span>
         </h1>
         <div className='see-community'>
           <a href='/'>
@@ -161,12 +175,7 @@ const Home: React.FunctionComponent = () => {
       </section>
       <section className='medical-community'>
         <div className='.section-head'>
-          <Stack
-            style={{ paddingTop: '20px' }}
-            horizontalAlign='center'
-            verticalAlign='center'
-            tokens={stackTokens}
-          >
+        <Personas/>
             {/* <Dropdown
               placeholder='I am a '
               options={options}
@@ -177,45 +186,15 @@ const Home: React.FunctionComponent = () => {
                 }
               }}
             /> */}
-            <Button Heading='Developer' selected={true}></Button>
-            <Button Heading='Organization' selected={false}></Button>
-          </Stack>
         </div>
         {getAvatar()}
       </section>
+
       <section className='section-wrap'>
+        {/*<DeveloperFeatures />*/}
         {userData.avatar && (
           <div className='features-list'>
-            {/* <Button
-              Heading='Lets get started'
-              gitHubIntegrated={userData.gitHubIntegrated}
-              LinkedinIntegrated={userData.LinkedinIntegrated}
-            ></Button> */}
-
-            <MyCheckbox
-              label='Auto create Post on LinkedIn'
-              isChecked={features.autoPost}
-              onChange={() =>
-                setFeatures({ ...features, autoPost: !features.autoPost })
-              }
-            />
-            <MyCheckbox
-              label='Sync achievements'
-              isChecked={features.achievementSync}
-              onChange={() =>
-                setFeatures({
-                  ...features,
-                  achievementSync: !features.achievementSync,
-                })
-              }
-            />
-            <MyCheckbox
-              label='Automatic Bio update'
-              isChecked={features.bioUpdate}
-              onChange={() =>
-                setFeatures({ ...features, bioUpdate: !features.bioUpdate })
-              }
-            />
+          
           </div>
         )}
         <div className='community-members'>
@@ -224,94 +203,8 @@ const Home: React.FunctionComponent = () => {
             <span />
           </div>
           <div className='users'>
-            <div className='user'>
-              <a className='user__avatar' href='#'>
-                <img
-                  className='avatar'
-                  src='https://cdn0.iconfinder.com/data/icons/customicondesign-office6-shadow/128/#{type}.png'
-                />
-              </a>
-              <div className='user__content'>
-                <div className='user__name'>
-                  {/* <a href='#'>Dott. Alessandra Trezzo</a> */}
-                  <MyCheckbox
-                    label='Auto create Post on LinkedIn'
-                    isChecked={features.autoPost}
-                    onChange={() =>
-                      setFeatures({ ...features, autoPost: !features.autoPost })
-                    }
-                  />
-                </div>
-                <div className='user__hospital'>
-                  1. When a major release is published. <br />
-                  2. When an issue is resolved.
-                </div>
-              </div>
-              {/*<div className='user__cv'>
-                <a href='#'>
-                  <i className='fa fa-graduation-cap' /> <br /> c.v.
-                </a>
-              </div>*/}
-            </div>
-            <div className='user'>
-              <a className='user__avatar' href='#'>
-                <img
-                  className='avatar'
-                  src='https://cdn0.iconfinder.com/data/icons/customicondesign-office6-shadow/128/#{type}.png'
-                />
-              </a>
-              <div className='user__content'>
-                <div className='user__name'>
-                  <MyCheckbox
-                    label='Sync achievements'
-                    isChecked={features.achievementSync}
-                    onChange={() =>
-                      setFeatures({
-                        ...features,
-                        achievementSync: !features.achievementSync,
-                      })
-                    }
-                  />
-                </div>
-                <div className='user__hospital'>
-                  1. Achievements from GitHub to LinkedIn Honors. <br />
-                  2. Certificates from LinkedIn to GitHub achievements.
-                </div>
-              </div>
-              {/*<div className='user__cv'>
-                <a href='#'>
-                  <i className='fa fa-graduation-cap' /> <br /> c.v.
-                </a>
-              </div>*/}
-            </div>
-            <div className='user'>
-              <a className='user__avatar' href='#'>
-                <img
-                  className='avatar'
-                  src='https://cdn0.iconfinder.com/data/icons/customicondesign-office6-shadow/128/#{type}.png'
-                />
-              </a>
-              <div className='user__content'>
-                <div className='user__name'>
-                  <MyCheckbox
-                    label='Automatic Bio update'
-                    isChecked={features.bioUpdate}
-                    onChange={() =>
-                      setFeatures({
-                        ...features,
-                        bioUpdate: !features.bioUpdate,
-                      })
-                    }
-                  />
-                </div>
-                <div className='user__hospital'>Università Tor Vergata</div>
-              </div>
-              {/*<div className='user__cv'>
-                <a href='#'>
-                  <i className='fa fa-graduation-cap' /> <br /> c.v.
-                </a>
-              </div>*/}
-            </div>
+          <DeveloperFeatures />
+            
           </div>
           <div className='see-more'>
             <a href='/'>Gurada tutti i medici della Community →</a>
