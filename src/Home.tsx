@@ -10,7 +10,8 @@ import bloggerLogo from './media/blogger.jpg';
 import developerLogo from './media/developer.png';
 import logo from './media/IntegrationIcon1.png';
 import orgLogo from './media/Organisation.jpg';
-import DeveloperFeatures from './Features';
+import DeveloperFeatures from './DeveloperFeatures';
+import OrganizationFeatures from './OrganizationFeatures';
 import Personas from './Personas';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -63,6 +64,8 @@ const Home: React.FunctionComponent = () => {
     achievementSync: false,
     bioUpdate: false,
   });
+
+  const [currentPersona, setCurrentPersona] = useState('Developer');
 
   const getAvatar = () => {
     if (userData.avatar == 'Developer') {
@@ -175,8 +178,8 @@ const Home: React.FunctionComponent = () => {
       </section>
       <section className='medical-community'>
         <div className='.section-head'>
-        <Personas/>
-            {/* <Dropdown
+          <Personas setCurrentPersona={(val: string) => setCurrentPersona(val)} />
+          {/* <Dropdown
               placeholder='I am a '
               options={options}
               styles={dropdownStyles}
@@ -194,7 +197,7 @@ const Home: React.FunctionComponent = () => {
         {/*<DeveloperFeatures />*/}
         {userData.avatar && (
           <div className='features-list'>
-          
+
           </div>
         )}
         <div className='community-members'>
@@ -203,8 +206,12 @@ const Home: React.FunctionComponent = () => {
             <span />
           </div>
           <div className='users'>
-          <DeveloperFeatures />
-            
+            {currentPersona === 'Developer' &&
+              <DeveloperFeatures />
+            }
+            {currentPersona === 'Organization' &&
+              <OrganizationFeatures />
+            }
           </div>
           <div className='see-more'>
             <a href='/'>Gurada tutti i medici della Community →</a>

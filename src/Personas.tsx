@@ -14,7 +14,7 @@ function Item(props: BoxProps) {
         textAlign: 'center',
         fontSize: 19,
         fontWeight: '700',
-        maxWidth:'30',
+        maxWidth: '30',
         ...sx,
       }}
       {...other}
@@ -22,13 +22,27 @@ function Item(props: BoxProps) {
   );
 }
 
-export default function Personas() {
+interface PersonasProps {
+  setCurrentPersona: (val: string) => void;
+}
+
+const Personas: React.FC<PersonasProps> = ({ setCurrentPersona }) => {
   return (
     <div>
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
-        <Item><img width={250} height={250} src="./Developerimage.png"></img><br/><p>Developer</p></Item>
-        <Item><img width={250} height={250} src="./Organisation.png"></img><br/><p>Organization</p></Item>
+        <Item onClick={() => setCurrentPersona('Developer')}>
+          <img width={250} height={250} src="./Developerimage.png" />
+          <br />
+          <Box sx={{ fontWeight: '700' }}>Developer</Box>
+        </Item>
+        <Item onClick={() => setCurrentPersona('Organization')}>
+          <img width={250} height={250} src="./Organisation.png" />
+          <br />
+          <Box sx={{ fontWeight: '700' }}>Organisation</Box>
+        </Item>
       </Box>
     </div>
   );
 }
+
+export default Personas;
