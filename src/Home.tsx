@@ -26,6 +26,10 @@ export interface IHome {
   LinkedinIntegrated: boolean;
   gitToken: string | null;
   linkedinUserProfile: object | null;
+  gitHubUserPic:string ;
+  gitHubUserName:string ;
+  linkedinUserPic:string;
+  linkedinUserName:string;
 }
 
 const dropdownStyles = {
@@ -57,6 +61,10 @@ const Home: React.FunctionComponent = () => {
     LinkedinIntegrated: false,
     gitToken: null,
     linkedinUserProfile: null,
+    gitHubUserPic:"",
+    gitHubUserName:"",
+    linkedinUserPic:"",
+    linkedinUserName:""
   });
 
   const [features, setFeatures] = useState({
@@ -118,16 +126,29 @@ const Home: React.FunctionComponent = () => {
     }
   };
 
-  const fetchLinkedinUser = (temporaryUserId: string) => {
-    axios
-      .get('https://cors-anywhere.herokuapp.com/http://localhost:3000/user', {
-        params: {
-          user: temporaryUserId,
-        },
-      })
-      .then(function (response: string) {
-        console.log(response);
-      });
+  const fetchLinkedinUser = (temporaryUserId: string, accessToken :string) => {
+
+    if(temporaryUserId!=null && accessToken!=null )
+       {
+        axios.get('https://githublinkedinservice.azurewebsites.net/user', {
+          params: {
+            userId: temporaryUserId,
+            token:accessToken
+          }
+        }).then(function (response:any) {
+          console.log(response.data);
+          setUserData({
+            ...userData,
+            gitToken: accessToken,
+            gitHubIntegrated: true,
+            LinkedinIntegrated: true,
+            gitHubUserPic:response.data.Git.avatar_url,
+            gitHubUserName:response.data.Git.name,
+            linkedinUserPic:response.data.Linkedin.Photo,
+            linkedinUserName:response.data.Linkedin.Displayname
+          });
+        })
+       }
   };
 
   const getParameterByName = (
@@ -147,13 +168,7 @@ const Home: React.FunctionComponent = () => {
     var temporaryUserId = getParameterByName('userdId');
     var accessToken = getParameterByName('gitaccessToken');
     if (temporaryUserId != null && accessToken != null) {
-      var user = fetchLinkedinUser(temporaryUserId);
-      setUserData({
-        ...userData,
-        gitToken: accessToken,
-        gitHubIntegrated: true,
-        LinkedinIntegrated: true,
-      });
+    fetchLinkedinUser(temporaryUserId,accessToken);
     }
   }, []);
 
@@ -165,32 +180,20 @@ const Home: React.FunctionComponent = () => {
         </div>
         <h1>
           GitLinked
-          <span>Bring GitHub and Linkedin closer.</span>
         </h1>
-        <div className='see-community'>
-          <a href='/'>
             <Button
               gitHubIntegrated={userData.gitHubIntegrated}
               LinkedinIntegrated={userData.LinkedinIntegrated}
+               gitHubUserPic={userData.gitHubUserPic} 
+               gitHubUserName={userData.gitHubUserName} 
+               linkedinUserPic={userData.linkedinUserPic} 
+               linkedinUserName={userData.linkedinUserName}
             ></Button>
-          </a>
-        </div>
       </section>
       <section className='medical-community'>
         <div className='.section-head'>
           <Personas setCurrentPersona={(val: string) => setCurrentPersona(val)} />
-          {/* <Dropdown
-              placeholder='I am a '
-              options={options}
-              styles={dropdownStyles}
-              onChange={(e, selectedOption) => {
-                if (selectedOption) {
-                  setUserData({ ...userData, avatar: selectedOption.text });
-                }
-              }}
-            /> */}
         </div>
-        {getAvatar()}
       </section>
 
       <section className='section-wrap'>

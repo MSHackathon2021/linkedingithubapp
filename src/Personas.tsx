@@ -6,10 +6,11 @@ function Item(props: BoxProps) {
   return (
     <Box
       sx={{
-        bgcolor: '#2e99e5',
+        // bgcolor: '#2e99e5',
+        bgcolor:'darkcyan',
         color: 'white',
-        p: 5,
-        m: 15,
+        p: 2,
+        m: 2,
         borderRadius: 1,
         textAlign: 'center',
         fontSize: 19,

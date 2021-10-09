@@ -8,7 +8,14 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-
+.see-community {
+  padding-top: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: darkgoldenrod;
+}
 .button {
   width: 140px;
   height: 45px;
