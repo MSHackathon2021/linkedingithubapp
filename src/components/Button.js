@@ -1,4 +1,5 @@
 import '../css/Button.css'
+import ContactCard from './ContactCard';
 
 function Button(props)
 {
@@ -7,7 +8,7 @@ function Button(props)
       return (   
 <div className="wrap">
   <a href="https://github.com/login/oauth/authorize?client_id=4390b5874ad74b454dc0" className="button" style={{marginRight:'10px' }} className="button">GitHub</a>
-  <a href="http://localhost:3000/auth/linkedin" className="button">Linkedin</a>
+  <a href="https://githublinkedinservice.azurewebsites.net/auth/linkedin" className="button">Linkedin</a>
 </div>    
     )
      }
@@ -20,7 +21,7 @@ function Button(props)
             )
      }
      else{
-       return(<div><h1>Allset</h1></div>)
+       return(<ContactCard gitHubUserPic={props.gitHubUserPic} gitHubUserName={props.gitHubUserName} linkedinUserPic={props.linkedinUserPic} linkedinUserName={props.linkedinUserName}></ContactCard>)
      }
 }
 

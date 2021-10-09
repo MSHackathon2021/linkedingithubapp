@@ -5,9 +5,8 @@ import orgLogo from './Organisation.jpg'
 import './css/Home.css';
 import * as React from 'react';
 import Button from './components/Button';
-import { ContextualMenu, IContextualMenuProps, IIconProps } from '@fluentui/react';
-import { IStackTokens, Stack } from '@fluentui/react/lib/Stack';
-import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption } from '@fluentui/react/lib/Dropdown';
+import {  Stack } from '@fluentui/react/lib/Stack';
+import { Dropdown, DropdownMenuItemType } from '@fluentui/react/lib/Dropdown';
 const axios = require('axios');
 
 const dropdownStyles = {
@@ -35,7 +34,11 @@ class Home extends React.Component {
       gitHubIntegrated:false,
       LinkedinIntegrated:false,
       gitToken:null,
-      linkedinUserProfile:null
+      linkedinUserProfile:null,
+      gitHubUserPic:null,
+      gitHubUserName:null,
+      linkedinUserPic:null,
+      linkedinUserName:null
     }
   }
 
@@ -82,24 +85,32 @@ class Home extends React.Component {
   {
     var temporaryUserId=this.getParameterByName("userdId");
     var accessToken=this.getParameterByName("gitaccessToken");
-    var user = this.fetchLinkedinUser(temporaryUserId);
-    if(temporaryUserId!=null && accessToken!=null )
-    {
-      this.setState({gitToken:accessToken,gitHubIntegrated:true,LinkedinIntegrated:true});
-
-    }
+    this.fetchLinkedinUser(temporaryUserId,accessToken,this);
   }
 
-  fetchLinkedinUser(temporaryUserId)
+   fetchLinkedinUser(temporaryUserId,accessToken,self)
   {
-    axios.get('https://cors-anywhere.herokuapp.com/http://localhost:3000/user', {
-      params: {
-        user: temporaryUserId
-      }
-    })
-    .then(function (response) {
-      console.log(response);
-    })
+    if(temporaryUserId!=null && accessToken!=null )
+       {
+        axios.get('https://githublinkedinservice.azurewebsites.net/user', {
+          params: {
+            userId: temporaryUserId,
+            token:accessToken
+          }
+        }).then(function (response) {
+          console.log(response.data);
+          self.setState(
+            {
+              gitToken:accessToken,
+              gitHubIntegrated:true,
+              LinkedinIntegrated:true,
+              gitHubUserPic:response.data.Git.avatar_url,
+              gitHubUserName:response.data.Git.name,
+              linkedinUserPic:response.data.Linkedin.Photo,
+              linkedinUserName:response.data.Linkedin.Displayname
+            });
+        })
+       }
   }
 
 
@@ -118,7 +129,7 @@ class Home extends React.Component {
       <section className="intro">
         <div className="logo"><img src={logo}  style={{width:'300px'}}/></div>
         <h1>GitHub Linkedin<span>Integrate your GitHub with Linkedin .</span></h1>
-        <div className="see-community"><a href="/"><Button gitHubIntegrated={this.state.gitHubIntegrated} LinkedinIntegrated ={this.state.LinkedinIntegrated}></Button></a></div>
+        <div className="see-community"><a href="/"><Button gitHubIntegrated={this.state.gitHubIntegrated} LinkedinIntegrated ={this.state.LinkedinIntegrated} gitHubUserPic={this.state.gitHubUserPic} gitHubUserName={this.state.gitHubUserName} linkedinUserPic={this.state.linkedinUserPic} linkedinUserName={this.state.linkedinUserName}></Button></a></div>
       </section>
       <section className="medical-community">
       <div className=".section-head">
@@ -136,7 +147,7 @@ class Home extends React.Component {
       </section>
       <section className="section-wrap">
         { this.state.avatar !=null &&
-      <Button Heading = "Lets get started" gitHubIntegrated={this.state.gitHubIntegrated} LinkedinIntegrated ={this.state.LinkedinIntegrated}></Button>
+      <Button Heading = "Lets get started" gitHubIntegrated={this.state.gitHubIntegrated} LinkedinIntegrated ={this.state.LinkedinIntegrated} ></Button>
         }
         <div className="community-members">
           <div className="medium-title">Medici in evidenza<span /></div>
@@ -229,10 +240,5 @@ class Home extends React.Component {
 
   }
 }
-
-
-// function Home() {
-  
-// }
 
 export default Home;
