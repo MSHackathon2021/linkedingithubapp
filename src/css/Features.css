@@ -1,0 +1,16 @@
+.featureHeader {
+    display: flex;
+}
+
+.featureImageContainer {
+    flex: 1;
+}
+
+.featureTitle {
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.formFooter {
+    margin-top: 40px;
+}
