@@ -26,6 +26,11 @@ export interface IDevFeature {
     gitHubRepo?: string;
 };
 
+export interface IFeatureProps {
+    isAuthenticated:boolean;
+    repos:string[];
+    };
+
 const featuresInitialState: IDevFeature[] = [
     {
         title: "Update LinkedIn Profile using Github",
@@ -85,7 +90,7 @@ const featuresInitialState: IDevFeature[] = [
     }
 ];
 
-export default function DeveloperFeatures() {
+export default function DeveloperFeatures(props: IFeatureProps) {
     const [features, setFeatures] = React.useState<IDevFeature[]>(featuresInitialState);
 
     const handleChange = (featureId: number) => (event: any, isExpanded: any) => {
@@ -147,11 +152,10 @@ export default function DeveloperFeatures() {
                                             label="Choose GitHub Repository"
                                             onChange={(ev) => setGitHubRepo(i, ev)}
                                         >
-                                            <MenuItem value='Repo1'>Repo1</MenuItem>
-                                            <MenuItem value='Repo2'>Repo2</MenuItem>
-                                            <MenuItem value='Repo3'>Repo3</MenuItem>
-                                            <MenuItem value='Repo4'>Repo4</MenuItem>
-                                            <MenuItem value='Repo5'>Repo5</MenuItem>
+                                              {props.repos.map((e, keyIndex) => {
+    return (<MenuItem key={keyIndex} value={e}>{e}</MenuItem>);
+ })
+}
                                         </Select>
                                     </FormControl >
                                 </div>
@@ -174,12 +178,18 @@ export default function DeveloperFeatures() {
                 </Accordion>
                 );
             })}
+             {props.isAuthenticated?(
             <div className="formFooter">
                 <Stack spacing={2} direction="row">
                     <Button variant="contained">Save</Button>
                     <Button variant="outlined">Cancel</Button>
                 </Stack>
-            </div>
+            </div>):( <div className="formFooter">
+                <Stack spacing={2} direction="row">
+                    <Button variant="contained"><a style={{'color':'white', 'textDecoration':'none'}} href="https://github.com/login/oauth/authorize?client_id=4390b5874ad74b454dc0">Link you accounts</a></Button>
+                </Stack>
+            </div>)
+            }
         </div >
     );
 }

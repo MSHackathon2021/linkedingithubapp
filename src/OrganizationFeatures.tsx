@@ -9,6 +9,7 @@ import CheckBoxOutlineBlankSharp from '@mui/icons-material/CheckBoxOutlineBlankS
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import LoginButton from './components/Button';
 import './css/Features.css';
 
 export interface IOrgFeature {
@@ -18,6 +19,10 @@ export interface IOrgFeature {
     sourceImgUrl: string;
     targetImageUrl: string;
     showLinkedInPostTemplate: boolean;
+};
+
+export interface IFeatureProps {
+isAuthenticated:boolean;
 };
 
 const featuresInitialState: IOrgFeature[] = [
@@ -55,7 +60,7 @@ const featuresInitialState: IOrgFeature[] = [
     }
 ];
 
-export default function OrganizationFeatures() {
+export default function OrganizationFeatures(props: IFeatureProps) {
     const [features, setFeatures] = React.useState<IOrgFeature[]>(featuresInitialState);
 
     const handleChange = (featureId: number) => (event: any, isExpanded: any) => {
@@ -79,7 +84,7 @@ export default function OrganizationFeatures() {
             {features.map((feature, i) => {
                 return (<Accordion expanded={feature.isChecked} onChange={handleChange(i)}>
                     <AccordionSummary
-                        expandIcon={feature.isChecked ? < CheckBox style={classes.dropdownOpen} /> : <CheckBoxOutlineBlankSharp />}
+                        expandIcon={feature.isChecked ? < CheckBox  style={classes.dropdownOpen} /> : <CheckBoxOutlineBlankSharp />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
@@ -117,12 +122,18 @@ export default function OrganizationFeatures() {
                 </Accordion>
                 );
             })}
+            {props.isAuthenticated?(
             <div className="formFooter">
                 <Stack spacing={2} direction="row">
                     <Button variant="contained">Save</Button>
                     <Button variant="outlined">Cancel</Button>
                 </Stack>
-            </div>
+            </div>):( <div className="formFooter">
+                <Stack spacing={2} direction="row">
+                    <Button variant="contained"><a style={{'color':'white', 'textDecoration':'none'}} href="https://github.com/login/oauth/authorize?client_id=4390b5874ad74b454dc0">Link you accounts</a></Button>
+                </Stack>
+            </div>)
+            }
         </div >
     );
 }

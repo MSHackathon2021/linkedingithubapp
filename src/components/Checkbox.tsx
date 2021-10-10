@@ -27,6 +27,7 @@ export const MyCheckbox = (props: IMyCheckBoxProps) => {
         checked={props.isChecked}
         onChange={props.onChange}
         boxSide='start'
+        disabled={true}
       />
     </Stack>
   );
