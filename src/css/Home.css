@@ -1,6 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 /** VARIABLES */
+
 /* BASE */
+
 body {
   font-family: "Lato", sans-serif;
 }
@@ -38,6 +40,7 @@ p {
 }
 
 /* MAIN */
+
 .section-wrap {
   padding: 20px 40px;
   max-width: 1000px;
@@ -55,9 +58,11 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.4em;
 }
+
 .small-title a {
   text-decoration: none;
 }
+
 .small-title span {
   display: block;
   margin: 0 auto;
@@ -74,6 +79,7 @@ p {
   letter-spacing: 0.1em;
   color: #95a5a6;
 }
+
 .medium-title span {
   display: block;
   margin: 0;
@@ -82,7 +88,8 @@ p {
   border-bottom: 2px solid #e74c3c;
 }
 
-/** INTRO */ 
+/** INTRO */
+
 .intro {
   text-align: center;
   max-width: 600px;
@@ -91,9 +98,10 @@ p {
 }
 
 .logo {
-   padding: 15px;
+  padding: 15px;
   /* margin: 0 auto 45px; */
 }
+
 .logo img {
   width: 100%;
 }
@@ -106,39 +114,45 @@ p {
   letter-spacing: 0.3em;
   color: darkgoldenrod;
 }
-.persona
-{
+
+.persona {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 .see-community a {
   text-decoration: none;
   color: #333;
   transition: color 0.3s;
 }
+
 .see-community a:hover {
   color: #e74c3c;
 }
 
 /** MEDICAL COMMUNITY */
+
 .medical-community {
   background-color: #0b9e81;
   text-align: center;
-  height:275px
+  height: 275px
   /* min-height:300px */
-  
 }
+
 .medical-community .medic-icons {
   margin-bottom: 10px;
 }
+
 .medical-community .medic-icons img {
   width: 300px;
   margin: 0 10px;
 }
+
 .medical-community h2 {
   color: white;
   font-weight: 400;
 }
+
 .medical-community p {
   color: rgba(255, 255, 255, 0.6);
   margin: 1.25em 0 0;
@@ -147,6 +161,7 @@ p {
 .community-members {
   padding: 45px 0 0;
 }
+
 .community-members .see-more {
   text-align: center;
 }
@@ -156,14 +171,16 @@ p {
 }
 
 /** MEDICAL NEWS */
+
 .medical-news .see-more {
   text-align: center;
 }
 
 /** ADV */
+
 .adv {
   color: white;
-  background-color: #9b59b6;
+  background-color: darkcyan;
   background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Fingerprint_picture.svg/170px-Fingerprint_picture.svg.png);
   background-size: contain;
   background-blend-mode: overlay;
@@ -171,14 +188,17 @@ p {
 }
 
 /** MODULES */
+
 .user {
   display: flex;
   padding: 8px 0;
   border-bottom: 1px solid #ddd;
 }
+
 .user__avatar {
   margin-right: 15px;
 }
+
 .user__name {
   font-size: 15px;
   letter-spacing: 0.1em;
@@ -186,10 +206,12 @@ p {
   font-weight: 700;
   margin-bottom: 10px;
 }
+
 .user__name a {
   color: #000;
   text-decoration: none;
 }
+
 .user__content {
   flex-grow: 2;
   font-size: 13px;
@@ -197,25 +219,30 @@ p {
   font-weight: 400;
   color: #666666;
 }
+
 .user__cv {
   align-self: flex-end;
   font-size: 12px;
   line-height: 1em;
   padding: 0 6px;
 }
+
 .user__cv a {
   display: inline-block;
   color: #b1bdbd;
   text-decoration: none;
   text-align: center;
 }
+
 .user__cv a i {
   font-size: 18px;
   vertical-align: middle;
 }
+
 .user__cv a:hover {
   color: #666666;
 }
+
 .user__cv a:hover i {
   color: #e74c3c;
 }
@@ -226,19 +253,24 @@ p {
   padding: 12px 0;
   border-bottom: 1px solid #ddd;
 }
+
 .post .circle-icon {
   flex-basis: 1;
   margin-right: 15px;
 }
+
 .post .circle-icon.red {
   background-color: #e74c3c;
 }
+
 .post .circle-icon.violet {
   background-color: #9b59b6;
 }
+
 .post .circle-icon.blue {
   background-color: #2980b9;
 }
+
 .post__title {
   flex: 1;
   font-size: 16px;
@@ -247,6 +279,7 @@ p {
   font-weight: 400;
   margin: 0;
 }
+
 .post__title a {
   color: #000;
   text-decoration: none;
@@ -261,12 +294,14 @@ p {
   font-size: 14px;
   font-weight: 400;
 }
+
 .banner a {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
 }
 
 /** COMMON */
+
 .see-more {
   padding-top: 45px;
   font-size: 12px;
@@ -274,11 +309,13 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
+
 .see-more a {
   text-decoration: none;
   color: #333;
   transition: color 0.3s;
 }
+
 .see-more a:hover {
   color: #e74c3c;
 }
@@ -318,13 +355,16 @@ a.btn, .btn {
   color: #95a5a6;
   transition: all 0.3s;
 }
+
 a.btn:hover, .btn:hover {
   color: white;
   background-color: #16a085;
 }
+
 a.btn.green, .btn.green {
   background-color: #16a085;
 }
+
 a.btn.green:hover, .btn.green:hover {
   background-color: #107360;
 }

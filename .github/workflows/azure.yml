@@ -20,8 +20,8 @@ on:
   # but only for the main branch
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
+  # pull_request:
+  #   branches: [master]
 
 env:
   AZURE_WEBAPP_NAME: GitHubLinkedInAPP    # set this to your application's name

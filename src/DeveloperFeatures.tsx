@@ -29,28 +29,13 @@ export interface IDevFeature {
 export interface IFeatureProps {
   isAuthenticated: boolean;
   repos: string[];
+  modal: {
+    show: (title: string, description?: string) => void;
+    hide: () => void;
+  };
 }
 
 const featuresInitialState: IDevFeature[] = [
-  {
-    title: 'Update LinkedIn Profile using Github',
-    description:
-      'Update the README file of your repo and see how your LinkedIn profile bio is automagically updated.',
-    isChecked: false,
-    sourceImgUrl: './GithubIcon.png',
-    targetImageUrl: './LinkedIn.png',
-    chooseGitHubRepo: false,
-    showLinkedInPostTemplate: false,
-  },
-  {
-    title: 'Show GitHub Badges on LinkedIn',
-    description: 'Highlight badges received on GitHub as honors on LinkedIn.',
-    isChecked: false,
-    sourceImgUrl: './GithubIcon.png',
-    targetImageUrl: './LinkedIn.png',
-    chooseGitHubRepo: false,
-    showLinkedInPostTemplate: false,
-  },
   {
     title: 'Share GitHub PR merge on LinkedIn',
     description:
@@ -72,6 +57,25 @@ const featuresInitialState: IDevFeature[] = [
     chooseGitHubRepo: true,
     gitHubRepo: '',
     showLinkedInPostTemplate: true,
+  },
+  {
+    title: 'Update LinkedIn Profile using Github',
+    description:
+      'Update the README file of your repo and see how your LinkedIn profile bio is automagically updated.',
+    isChecked: false,
+    sourceImgUrl: './GithubIcon.png',
+    targetImageUrl: './LinkedIn.png',
+    chooseGitHubRepo: false,
+    showLinkedInPostTemplate: false,
+  },
+  {
+    title: 'Show GitHub Badges on LinkedIn',
+    description: 'Highlight badges received on GitHub as honors on LinkedIn.',
+    isChecked: false,
+    sourceImgUrl: './GithubIcon.png',
+    targetImageUrl: './LinkedIn.png',
+    chooseGitHubRepo: false,
+    showLinkedInPostTemplate: false,
   },
   {
     title: 'Show LinkedIn Certifications on Github',
@@ -122,82 +126,95 @@ export default function DeveloperFeatures(props: IFeatureProps) {
   const classes = styles();
   return (
     <div>
-      {features.map((feature, i) => {
-        return (
-          <Accordion expanded={feature.isChecked} onChange={handleChange(i)}>
-            <AccordionSummary
-              expandIcon={
-                feature.isChecked ? (
-                  <CheckBox style={classes.dropdownOpen} />
-                ) : (
-                  <CheckBoxOutlineBlankSharp />
-                )
-              }
-              aria-controls='panel1a-content'
-              id='panel1a-header'
-            >
-              <Typography>
-                <div className='featureHeader'>
-                  <div className='featureImageContainer'>
-                    <img height={30} width={30} src={feature.sourceImgUrl} />
-                    <ArrowRightAltIcon />
-                    <img height={30} width={30} src={feature.targetImageUrl} />
+      {props.isAuthenticated &&
+        features.map((feature, i) => {
+          return (
+            <Accordion expanded={feature.isChecked} onChange={handleChange(i)}>
+              <AccordionSummary
+                expandIcon={
+                  feature.isChecked ? (
+                    <CheckBox style={classes.dropdownOpen} />
+                  ) : (
+                    <CheckBoxOutlineBlankSharp />
+                  )
+                }
+                aria-controls='panel1a-content'
+                id='panel1a-header'
+              >
+                <Typography>
+                  <div className='featureHeader'>
+                    <div className='featureImageContainer'>
+                      <img height={30} width={30} src={feature.sourceImgUrl} />
+                      <ArrowRightAltIcon />
+                      <img
+                        height={30}
+                        width={30}
+                        src={feature.targetImageUrl}
+                      />
+                    </div>
+                    <div className='featureTitle'>{feature.title}</div>
                   </div>
-                  <div className='featureTitle'>{feature.title}</div>
-                </div>
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                <div>{feature.description}</div>
-                <br />
-                {feature.chooseGitHubRepo && (
-                  <div>
-                    <FormControl sx={{ width: 400 }} required>
-                      <InputLabel id='demo-simple-select-label'>
-                        Choose a Repository
-                      </InputLabel>
-                      <Select
-                        labelId='demo-simple-select-label'
-                        id='demo-simple-select'
-                        value={feature.gitHubRepo}
-                        label='Choose GitHub Repository'
-                        onChange={(ev) => setGitHubRepo(i, ev)}
-                      >
-                        {props.repos.map((e, keyIndex) => {
-                          return (
-                            <MenuItem key={keyIndex} value={e}>
-                              {e}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </div>
-                )}
-                <br />
-                {feature.showLinkedInPostTemplate && (
-                  <div>
-                    <TextField
-                      required
-                      sx={{ width: 400 }}
-                      id='filled-multiline-static'
-                      label='LinkedIn Post Description'
-                      multiline
-                      rows={4}
-                      placeholder='Enter LinkedIn Post Description'
-                    />
-                  </div>
-                )}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  <div>{feature.description}</div>
+                  <br />
+                  {feature.chooseGitHubRepo && (
+                    <div>
+                      <FormControl sx={{ width: 400 }} required>
+                        <InputLabel id='demo-simple-select-label'>
+                          Choose a Repository
+                        </InputLabel>
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          value={feature.gitHubRepo}
+                          label='Choose GitHub Repository'
+                          onChange={(ev) => setGitHubRepo(i, ev)}
+                        >
+                          {props.repos.map((e, keyIndex) => {
+                            return (
+                              <MenuItem key={keyIndex} value={e}>
+                                {e}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                    </div>
+                  )}
+                  <br />
+                  {feature.showLinkedInPostTemplate && (
+                    <div>
+                      <TextField
+                        required
+                        sx={{ width: 400 }}
+                        id='filled-multiline-static'
+                        label='LinkedIn Post Description'
+                        multiline
+                        rows={4}
+                        placeholder='Enter LinkedIn Post Description'
+                      />
+                    </div>
+                  )}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
+
       {props.isAuthenticated ? (
         <div className='formFooter'>
           <Stack spacing={2} direction='row'>
-            <Button variant='contained'>Save</Button>
+            <Button
+              variant='contained'
+              onClick={() =>
+                props.modal.show('GitLinked', 'Preferences Updated')
+              }
+            >
+              Save
+            </Button>
             <Button variant='outlined'>Cancel</Button>
           </Stack>
         </div>

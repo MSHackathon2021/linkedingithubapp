@@ -1,3 +1,9 @@
+import {
+  Dialog,
+  DialogFooter,
+  DialogType,
+  PrimaryButton,
+} from '@fluentui/react';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Button from './components/Button';
@@ -34,10 +40,9 @@ const Home: React.FunctionComponent = () => {
     isAwaiting: true,
   });
 
-  const [features, setFeatures] = useState({
-    autoPost: false,
-    achievementSync: false,
-    bioUpdate: false,
+  const [modalDialog, setModalDialog] = useState({
+    show: false,
+    dialogContent: {},
   });
 
   const [currentPersona, setCurrentPersona] = useState('Developer');
@@ -102,6 +107,26 @@ const Home: React.FunctionComponent = () => {
     }
   };
 
+  const showModalDialog = (title: string, description?: string) => {
+    var modelDialogDetails = {
+      type: DialogType.close,
+      title: title,
+      subText: description ? description : null,
+    };
+
+    setModalDialog({
+      show: true,
+      dialogContent: modelDialogDetails,
+    });
+  };
+
+  const closeDialog = (): void => {
+    setModalDialog({
+      ...modalDialog,
+      show: false,
+    });
+  };
+
   //Initial render
   useEffect(() => {
     var temporaryUserId = getParameterByName('userdId');
@@ -147,11 +172,13 @@ const Home: React.FunctionComponent = () => {
               <DeveloperFeatures
                 isAuthenticated={userData.isAuthenticated}
                 repos={userData.repos}
+                modal={{ show: showModalDialog, hide: closeDialog }}
               />
             )}
             {currentPersona === 'Organization' && (
               <OrganizationFeatures
                 isAuthenticated={userData.isAuthenticated}
+                modal={{ show: showModalDialog, hide: closeDialog }}
               />
             )}
           </div>
@@ -170,6 +197,18 @@ const Home: React.FunctionComponent = () => {
           </a>
         </div>
       </section>
+      <Dialog
+        hidden={!modalDialog.show}
+        onDismiss={closeDialog}
+        dialogContentProps={modalDialog.dialogContent}
+        modalProps={{
+          styles: { main: { maxWidth: 450 } },
+        }}
+      >
+        <DialogFooter>
+          <PrimaryButton onClick={closeDialog} text='OK' />
+        </DialogFooter>
+      </Dialog>
     </div>
   );
 };
