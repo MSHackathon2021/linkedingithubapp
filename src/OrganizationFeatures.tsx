@@ -22,6 +22,10 @@ export interface IOrgFeature {
 
 export interface IFeatureProps {
   isAuthenticated: boolean;
+  modal: {
+    show: (title: string, description?: string) => void;
+    hide: () => void;
+  };
 }
 
 const featuresInitialState: IOrgFeature[] = [
@@ -86,57 +90,69 @@ export default function OrganizationFeatures(props: IFeatureProps) {
   const classes = styles();
   return (
     <div>
-      {features.map((feature, i) => {
-        return (
-          <Accordion expanded={feature.isChecked} onChange={handleChange(i)}>
-            <AccordionSummary
-              expandIcon={
-                feature.isChecked ? (
-                  <CheckBox style={classes.dropdownOpen} />
-                ) : (
-                  <CheckBoxOutlineBlankSharp />
-                )
-              }
-              aria-controls='panel1a-content'
-              id='panel1a-header'
-            >
-              <Typography>
-                <div className='featureHeader'>
-                  <div className='featureImageContainer'>
-                    <img height={30} width={30} src={feature.sourceImgUrl} />
-                    <ArrowRightAltIcon />
-                    <img height={30} width={30} src={feature.targetImageUrl} />
+      {props.isAuthenticated &&
+        features.map((feature, i) => {
+          return (
+            <Accordion expanded={feature.isChecked} onChange={handleChange(i)}>
+              <AccordionSummary
+                expandIcon={
+                  feature.isChecked ? (
+                    <CheckBox style={classes.dropdownOpen} />
+                  ) : (
+                    <CheckBoxOutlineBlankSharp />
+                  )
+                }
+                aria-controls='panel1a-content'
+                id='panel1a-header'
+              >
+                <Typography>
+                  <div className='featureHeader'>
+                    <div className='featureImageContainer'>
+                      <img height={30} width={30} src={feature.sourceImgUrl} />
+                      <ArrowRightAltIcon />
+                      <img
+                        height={30}
+                        width={30}
+                        src={feature.targetImageUrl}
+                      />
+                    </div>
+                    <div className='featureTitle'>{feature.title}</div>
                   </div>
-                  <div className='featureTitle'>{feature.title}</div>
-                </div>
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                <div>{feature.description}</div>
-                <br />
-                {feature.showLinkedInPostTemplate && (
-                  <div>
-                    <TextField
-                      required
-                      sx={{ width: 400 }}
-                      id='filled-multiline-static'
-                      label='LinkedIn Post Description'
-                      multiline
-                      rows={4}
-                      placeholder='Enter LinkedIn Post Description'
-                    />
-                  </div>
-                )}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  <div>{feature.description}</div>
+                  <br />
+                  {feature.showLinkedInPostTemplate && (
+                    <div>
+                      <TextField
+                        required
+                        sx={{ width: 400 }}
+                        id='filled-multiline-static'
+                        label='LinkedIn Post Description'
+                        multiline
+                        rows={4}
+                        placeholder='Enter LinkedIn Post Description'
+                      />
+                    </div>
+                  )}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
       {props.isAuthenticated ? (
         <div className='formFooter'>
           <Stack spacing={2} direction='row'>
-            <Button variant='contained'>Save</Button>
+            <Button
+              variant='contained'
+              onClick={() =>
+                props.modal.show('GitLinked', 'Preferences Updated')
+              }
+            >
+              Save
+            </Button>
             <Button variant='outlined'>Cancel</Button>
           </Stack>
         </div>
