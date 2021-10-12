@@ -6,6 +6,10 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
@@ -18,10 +22,17 @@ export interface IOrgFeature {
   sourceImgUrl: string;
   targetImageUrl: string;
   showLinkedInPostTemplate: boolean;
+  gitHubRepo?: string;
+  linkedInCompany?: string;
+  linkedInPlaceholder?: string;
+  chooseGitHubRepo: boolean;
+  chooseLinkedInCompany: boolean;
 }
 
 export interface IFeatureProps {
   isAuthenticated: boolean;
+  repos: string[];
+  linkedInCompanies: string[];
   modal: {
     show: (title: string, description?: string) => void;
     hide: () => void;
@@ -37,6 +48,14 @@ const featuresInitialState: IOrgFeature[] = [
     sourceImgUrl: './GithubIcon.png',
     targetImageUrl: './LinkedIn.png',
     showLinkedInPostTemplate: true,
+    chooseGitHubRepo: false,
+    chooseLinkedInCompany: true,
+    linkedInCompany: '',
+    linkedInPlaceholder: `📣 We are now sponsoring {{peronName}}
+    
+🙏 We are thankful for the contributions you have made so far to the open-source community and hope to support you in your future initiatives too.
+
+#Microsoft365Dev`
   },
   {
     title: 'Share New Repository Created in LinkedIn Company Post.',
@@ -46,6 +65,14 @@ const featuresInitialState: IOrgFeature[] = [
     sourceImgUrl: './GithubIcon.png',
     targetImageUrl: './LinkedIn.png',
     showLinkedInPostTemplate: true,
+    chooseGitHubRepo: false,
+    chooseLinkedInCompany: true,
+    linkedInCompany: '',
+    linkedInPlaceholder: `📣 New Repository {{repoName}} Created
+
+🤖 Try: git clone {{repoUrl}}
+
+#Microsoft365Dev`
   },
   {
     title: 'Share New Release for a repository in LinkedIn Company Post',
@@ -55,6 +82,17 @@ const featuresInitialState: IOrgFeature[] = [
     sourceImgUrl: './GithubIcon.png',
     targetImageUrl: './LinkedIn.png',
     showLinkedInPostTemplate: true,
+    chooseGitHubRepo: true,
+    gitHubRepo: '',
+    chooseLinkedInCompany: true,
+    linkedInCompany: '',
+    linkedInPlaceholder: `📣 New Release Created for {{packageName}}
+
+🤖 Try: npm i -g @{{packageName}}
+
+Release notes: https://repo-release-notes
+
+#Microsoft365Dev`
   },
   {
     title:
@@ -65,6 +103,16 @@ const featuresInitialState: IOrgFeature[] = [
     sourceImgUrl: './GithubIcon.png',
     targetImageUrl: './LinkedIn.png',
     showLinkedInPostTemplate: true,
+    chooseGitHubRepo: false,
+    chooseLinkedInCompany: true,
+    linkedInCompany: '',
+    linkedInPlaceholder: `📣 New Package Version Released for {{packageName}}
+
+🤖 Try: npm i -g @{{packageName}}@next
+
+Release notes: https://repo-release-notes
+
+#Microsoft365Dev`
   },
 ];
 
@@ -75,6 +123,18 @@ export default function OrganizationFeatures(props: IFeatureProps) {
   const handleChange = (featureId: number) => (event: any, isExpanded: any) => {
     const allFeatures = [...features];
     allFeatures[featureId].isChecked = isExpanded;
+    setFeatures(allFeatures);
+  };
+
+  const setGitHubRepo = (featureId: number, ev: SelectChangeEvent) => {
+    const allFeatures = [...features];
+    allFeatures[featureId].gitHubRepo = ev.target.value;
+    setFeatures(allFeatures);
+  };
+
+  const setLinkedInCompany = (featureId: number, ev: SelectChangeEvent) => {
+    const allFeatures = [...features];
+    allFeatures[featureId].linkedInCompany = ev.target.value;
     setFeatures(allFeatures);
   };
 
@@ -124,6 +184,56 @@ export default function OrganizationFeatures(props: IFeatureProps) {
                 <Typography>
                   <div>{feature.description}</div>
                   <br />
+                  {feature.chooseGitHubRepo && (
+                    <div>
+                      <FormControl sx={{ width: 400 }} required>
+                        <InputLabel id='demo-simple-select-label'>
+                          Choose a Repository
+                        </InputLabel>
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          value={feature.gitHubRepo}
+                          label='Choose GitHub Repository'
+                          onChange={(ev) => setGitHubRepo(i, ev)}
+                        >
+                          {props.repos.map((e, keyIndex) => {
+                            return (
+                              <MenuItem key={keyIndex} value={e}>
+                                {e}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                    </div>
+                  )}
+                  <br />
+                  {feature.chooseLinkedInCompany && (
+                    <div>
+                      <FormControl sx={{ width: 400 }} required>
+                        <InputLabel id='demo-simple-select-label'>
+                          Choose a LinkedIn Company
+                        </InputLabel>
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          value={feature.linkedInCompany}
+                          label='Choose LinkedIn Company'
+                          onChange={(ev) => setLinkedInCompany(i, ev)}
+                        >
+                          {props.linkedInCompanies.map((e, keyIndex) => {
+                            return (
+                              <MenuItem key={keyIndex} value={e}>
+                                {e}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </FormControl>
+                    </div>
+                  )}
+                  <br />
                   {feature.showLinkedInPostTemplate && (
                     <div>
                       <TextField
@@ -133,7 +243,7 @@ export default function OrganizationFeatures(props: IFeatureProps) {
                         label='LinkedIn Post Description'
                         multiline
                         rows={4}
-                        placeholder='Enter LinkedIn Post Description'
+                        defaultValue={feature.linkedInPlaceholder ? feature.linkedInPlaceholder : 'LinkedIn Post Description'}
                       />
                     </div>
                   )}

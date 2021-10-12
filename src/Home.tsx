@@ -127,6 +127,11 @@ const Home: React.FunctionComponent = () => {
     });
   };
 
+  const sampleLinkedInCompanies: string[] = [
+    "WubbaLubbaDub-Dub",
+    "WubbaLubba"
+  ];
+
   //Initial render
   useEffect(() => {
     var temporaryUserId = getParameterByName('userdId');
@@ -178,6 +183,8 @@ const Home: React.FunctionComponent = () => {
             {currentPersona === 'Organization' && (
               <OrganizationFeatures
                 isAuthenticated={userData.isAuthenticated}
+                repos={userData.repos}
+                linkedInCompanies={sampleLinkedInCompanies}
                 modal={{ show: showModalDialog, hide: closeDialog }}
               />
             )}
