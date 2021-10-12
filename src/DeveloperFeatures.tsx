@@ -23,6 +23,7 @@ export interface IDevFeature {
   targetImageUrl: string;
   chooseGitHubRepo: boolean;
   showLinkedInPostTemplate: boolean;
+  linkedInPlaceholder?: string;
   gitHubRepo?: string;
 }
 
@@ -46,6 +47,13 @@ const featuresInitialState: IDevFeature[] = [
     chooseGitHubRepo: true,
     gitHubRepo: '',
     showLinkedInPostTemplate: true,
+    linkedInPlaceholder: `📣 One of my PRs for {{repoName}} just got merged
+
+🤖 Try: npm i -g @{{repoName}}
+
+Pull Request: https://pull-request-link
+
+#Microsoft365Dev`
   },
   {
     title: 'Share GitHub Release on LinkedIn',
@@ -57,6 +65,13 @@ const featuresInitialState: IDevFeature[] = [
     chooseGitHubRepo: true,
     gitHubRepo: '',
     showLinkedInPostTemplate: true,
+    linkedInPlaceholder: `📣 New Release Created for {{packageName}}
+
+🤖 Try: npm i -g @{{packageName}}
+
+Release notes: https://repo-release-notes
+
+#Microsoft365Dev`
   },
   {
     title: 'Update LinkedIn Profile using Github',
@@ -194,7 +209,7 @@ export default function DeveloperFeatures(props: IFeatureProps) {
                         label='LinkedIn Post Description'
                         multiline
                         rows={4}
-                        placeholder='Enter LinkedIn Post Description'
+                        defaultValue={feature.linkedInPlaceholder ? feature.linkedInPlaceholder : 'LinkedIn Post Description'}
                       />
                     </div>
                   )}
