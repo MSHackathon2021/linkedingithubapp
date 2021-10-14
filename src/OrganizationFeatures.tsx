@@ -65,7 +65,7 @@ const featuresInitialState: IOrgFeature[] = [
     sourceImgUrl: './GithubIcon.png',
     targetImageUrl: './LinkedIn.png',
     showLinkedInPostTemplate: true,
-    chooseGitHubRepo: false,
+    chooseGitHubRepo: true,
     chooseLinkedInCompany: true,
     linkedInCompany: '',
     linkedInPlaceholder: `📣 New Repository {{repoName}} Created
