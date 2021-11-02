@@ -57,7 +57,7 @@ const Home: React.FunctionComponent = () => {
           },
         })
         .then(function (response: any) {
-          console.log(response);
+          // console.log(response);
           setUserData({
             ...userData,
             isAuthenticated: true,
